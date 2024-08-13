@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Triggers.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Triggers">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TriggerStyle" TargetType="Button">
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Count}"
+                        TargetType="Button"
+                        Value="5">
+
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Background" Value="Yellow" />
+
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Style.Triggers>
+                    <Trigger TargetType="Entry" Property="IsPassword" Value="True">
+
+                        <Setter Property="BackgroundColor" Value="Red" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+
+            <Frame>
+                <VerticalStackLayout>
+                    <Label Text="EventTrigger : escribe valid en el entry" />
+                    <Entry
+                        FontSize="Title"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Style="{StaticResource Headline}"
+                        Text="write valid">
+                        <Entry.Triggers>
+                            <EventTrigger Event="TextChanged">
+                                <local:NumericValidationTriggerAction MinValue="5" />
+                            </EventTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Frame>
+                <VerticalStackLayout>
+                    <Label Text="PropertyTrigger : Al pulsar en el entry, cambia a amarillo;Si la segunda entry se cambia la variable IsPassword cambia a rojo" />
+                    <Entry
+                        FontSize="Title"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Style="{StaticResource Headline}"
+                        Text="Hello, World!">
+                        <Entry.Triggers>
+                            <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+
+                                <Setter Property="BackgroundColor" Value="Yellow" />
+                            </Trigger>
+                        </Entry.Triggers>
+                    </Entry>
+
+                    <Entry
+                        IsPassword="True"
+                        Style="{StaticResource EntryStyle}"
+                        Text="EntryStyle" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="DataTrigger : cuando llegue a 5 cambia" />
+                    <Button
+                        x:Name="CounterBtn"
+                        Clicked="OnCounterClicked"
+                        HorizontalOptions="Fill"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        Text="Click me">
+                        <Button.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Count}"
+                                TargetType="Button"
+                                Value="5">
+
+                                <Setter Property="IsEnabled" Value="False" />
+                                <Setter Property="Background" Value="Red" />
+
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button Style="{StaticResource TriggerStyle}" Text="Button Style" />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout>
+                    <Label Text="MultiTrigger : cuando llegue a 5 y escriba Multitrigger cambia" />
+                    <Entry
+                        x:Name="myEntry"
+                        FontSize="Title"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Style="{StaticResource Headline}"
+                        Text="write Multitrigger" />
+
+                    <Button
+                        x:Name="MultiTriggerButton"
+                        Clicked="OnCounterClicked"
+                        HorizontalOptions="Fill"
+                        SemanticProperties.Hint="Counts the number of times you click"
+                        Text="MultiTrigger">
+                        <Button.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference myEntry}, Path=Text}" Value="Multitrigger" />
+                                    <PropertyCondition Property="Text" Value="Clicked 5 times" />
+                                </MultiTrigger.Conditions>
+
+                                <Setter Property="BackgroundColor" Value="Green" />
+                            </MultiTrigger>
+
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
