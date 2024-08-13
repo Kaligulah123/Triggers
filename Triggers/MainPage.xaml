@@ -41,7 +41,7 @@
                         FontSize="Title"
                         SemanticProperties.HeadingLevel="Level1"
                         Style="{StaticResource Headline}"
-                        Text="write validoo12">
+                        Text="write valido">
                         <Entry.Triggers>
                             <EventTrigger Event="TextChanged">
                                 <local:NumericValidationTriggerAction MinValue="5" />
